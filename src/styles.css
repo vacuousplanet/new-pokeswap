@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-large {
+    @apply rounded my-4 h-16 enabled:drop-shadow-md enabled:hover:drop-shadow-lg enabled:bg-slate-800 w-80 enabled:hover:bg-slate-700 disabled:opacity-75 disabled:bg-slate-900 transition
+  }
+}
+
+::-webkit-scrollbar {
+    background: rgb(30 41 59);
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(51 65 85);
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+
+}
