@@ -1,5 +1,6 @@
 import { createEffect, createSignal } from "solid-js";
 import { useSetupForm } from "../contexts/setupForm";
+import generateBizhawkCommand from "../utils/RunBizhawk";
 
 
 // TODO: change mdoe to enum probably
@@ -39,7 +40,11 @@ function CreateLobbyButton() {
         <button
             class="btn-large"
             onclick={() => {
-
+                generateBizhawkCommand({
+                    bizPath: formData.bizhawkPath(),
+                    luaPath: "",
+                    gamePath: formData.romPath(),
+                });
             }}
             disabled={!active()}
         >Create</button>

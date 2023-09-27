@@ -7,6 +7,7 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+// TODO: move this to separate file
 #[derive(Debug, thiserror::Error)]
 enum Error {
     #[error(transparent)]
@@ -44,10 +45,22 @@ fn read_file(path: &str, offset: u64, length: usize) -> Result<String, Error> {
     })
 }
 
+#[tauri::command]
+fn run_bizhawk(biz_path: &str, lua_path: &str, game_path: &str, savestate_path: Option<&str>) {
+  let _ = std::process::Command::new(biz_path)
+    //.arg("--socket_ip=127.0.0.1")
+    //.arg("--socket_port=2525")
+    .arg(game_path)
+    .stdout(std::process::Stdio::piped())
+    .spawn()
+    .expect("Failed to start Bizhawk process");
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])
         .invoke_handler(tauri::generate_handler![read_file])
+        .invoke_handler(tauri::generate_handler![run_bizhawk])
         .plugin(tauri_plugin_store::Builder::default().build())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
