@@ -82,6 +82,7 @@ export function SetupFormProvider(props: any) {
             setMaxPlayers: setMaxPlayers,
             removeRom(data: {name: string}) {
                 setListItems(listItems.filter((v) => v !== data));
+                setupStore.set('listItems', listItems);
             },
             setCustomServer: setCustomServer,
             setUseCustomServer: setUseCustomServer

@@ -45,6 +45,7 @@ fn read_file(path: &str, offset: u64, length: usize) -> Result<String, Error> {
     })
 }
 
+// TODO: start bizhawk coms server in here as well (?)
 #[tauri::command]
 fn run_bizhawk(biz_path: &str, lua_path: &str, game_path: &str, savestate_path: Option<&str>) {
   let _ = std::process::Command::new(biz_path)
