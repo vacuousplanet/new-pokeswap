@@ -43,7 +43,7 @@ function CreateLobbyButton() {
                 generateBizhawkCommand({
                     bizPath: formData.bizhawkPath(),
                     luaPath: "",
-                    gamePath: formData.romPath(),
+                    gamePath: formData.romPath().path,
                 });
             }}
             disabled={!active()}

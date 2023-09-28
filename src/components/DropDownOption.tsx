@@ -2,7 +2,7 @@ import { Component, Setter } from "solid-js";
 import { Dynamic } from "solid-js/web";
 
 interface DropDownOptionProps<T> {
-    setSelected: Setter<string>,
+    setSelected: Setter<{name: string} & T>,
     onclickBehavior: (() => void) | undefined,
     item: {name: string} & T,
     subComponent: Component<T> | string,
@@ -28,7 +28,7 @@ function DropDownOption<T>(props: DropDownOptionProps<T>) {
     return (
         <div class={dropDownOptionClassAtrs}>
             <button
-                onclick={() => {props.setSelected(props.item.name); props.onclickBehavior ? props.onclickBehavior() : null;}}
+                onclick={() => {props.setSelected(() => props.item); props.onclickBehavior ? props.onclickBehavior() : null;}}
                 class="px-1 basis-5/6"
             >{props.item.name}</button>
             <Dynamic component={props.subComponent} data={props.item} class="px-1 basis-1/6"></Dynamic>

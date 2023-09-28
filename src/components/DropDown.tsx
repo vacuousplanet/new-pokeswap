@@ -39,6 +39,7 @@ const dropDownClassAttrs = [
     "drop-shadow-mg",
     "hover:drop-shadow-lg",
     "hover:bg-slate-700",
+    "z-40",
     "transition"
 ].join(' ');
 
@@ -47,10 +48,10 @@ function DropDown<T>(props: DropDownProps<T>) {
 
     const [hidden, setHidden] = createSignal(true);
 
-    const [selected, setSelected] = props.selectionSignal || createSignal(props.items.length > 0 ? props.items[0].name : "");
+    const [selected, setSelected] = props.selectionSignal || createSignal(props.items.length > 0 ? props.items[0] : {name: ''});
 
     createEffect(() => {
-        setSelected(props.items.length > 0 ? props.items[0].name : "");
+        setSelected(props.items.length > 0 ? props.items[0] : {name: ''});
     });
 
     return (
@@ -59,10 +60,10 @@ function DropDown<T>(props: DropDownProps<T>) {
                 onclick={() => setHidden(false)}
                 class="flex flex-row text-sm grow"
             >
-                <p class="basis-4/5 text-left px-1">{selected()}</p>
+                <p class="basis-4/5 text-left px-1">{selected().name}</p>
                 <p class="basis-1/5 text-right px-1">▾</p>
             </button>
-            <div class={"fixed overflow-y-auto rounded transition-all ease-in duration-150 " + (hidden() ? "opacity-0 max-h-0" : "opacity-100 max-h-32 drop-shadow-xl")}>
+            <div class={"z-50 fixed overflow-y-auto rounded transition-all ease-in duration-150 " + (hidden() ? "opacity-0 max-h-0" : "opacity-100 max-h-32 drop-shadow-xl")}>
                 <Show when={!hidden()}>
                     <For each={props.items}>
                         {(item) => <DropDownOption setSelected={setSelected} onclickBehavior={() => setHidden(true)} item={item} subComponent={props.subComponent}/>}

@@ -20,6 +20,7 @@ const textFieldClassAttrs = [
     "transition",
     "disabled:opacity-75",
     "disabled:bg-slate-900",
+    "z-0"
 ].join(' ');
 
 const checkButtonClassAttrs = [
@@ -42,7 +43,7 @@ function CustomServerToggle(props: CustomServerToggleProps) {
     const [value, setValue] = props.textSignal || createSignal('');
 
     return (
-        <div class="basis-1/5 flex flex-row">
+        <div class="basis-1/5 flex flex-row z-0">
             <input type="text" class={textFieldClassAttrs} disabled={!checked()} value={value()}
                 oninput={(e) => {
                     setValue(e.currentTarget.value);

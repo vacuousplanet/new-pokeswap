@@ -31,7 +31,7 @@ export function SetupFormProvider(props: any) {
 
     const [listItems, setListItems] = createStore(listItemsStored || []);
 
-    const [romPath, setRomPath] = createSignal(listItems.length > 0 ? listItems[0].name : '');
+    const [romPath, setRomPath] = createSignal(listItems.length > 0 ? listItems[0] : {name: '', path: ''});
     
     const [username, setUsername] = createSignal(usernameStored || '');
 
@@ -42,13 +42,13 @@ export function SetupFormProvider(props: any) {
       {name: "Barrel"}
     ]);
 
-    const [mode, setMode] = createSignal(listModes[0].name);
+    const [mode, setMode] = createSignal(listModes[0]);
 
     const [listPlayerCounts, {}] = createStore(
       Array.from(Array(9).keys()).map(i => {return {name: (i + 2).toString()}})
     );
 
-    const [maxPlayers, setMaxPlayers] = createSignal(listPlayerCounts[0].name);
+    const [maxPlayers, setMaxPlayers] = createSignal(listPlayerCounts[0]);
 
     const [customServer, setCustomServer] = createSignal('');
 
