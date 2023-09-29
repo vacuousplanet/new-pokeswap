@@ -47,8 +47,8 @@ function RomList() {
         //      small db for known rom hashes
         Promise.all(Array().concat(selected).map(async v => await RomData(v))).then(
             v => addRoms(v),
-            () => {}
-        )
+            (err) => {console.log(err);}
+        );
     }
 
     return (

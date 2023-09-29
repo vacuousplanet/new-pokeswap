@@ -1,12 +1,6 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
 // TODO: move this to separate file
 #[derive(Debug, thiserror::Error)]
 enum Error {
@@ -45,7 +39,6 @@ fn read_file(path: &str, offset: u64, length: usize) -> Result<String, Error> {
     })
 }
 
-// TODO: start bizhawk coms server in here as well (?)
 #[tauri::command]
 fn run_bizhawk(biz_path: &str, lua_path: &str, game_path: &str, savestate_path: Option<&str>) {
   let _ = std::process::Command::new(biz_path)
@@ -59,9 +52,10 @@ fn run_bizhawk(biz_path: &str, lua_path: &str, game_path: &str, savestate_path: 
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
-        .invoke_handler(tauri::generate_handler![read_file])
-        .invoke_handler(tauri::generate_handler![run_bizhawk])
+        .invoke_handler(tauri::generate_handler![
+          read_file,
+          run_bizhawk
+        ])
         .plugin(tauri_plugin_store::Builder::default().build())
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
