@@ -3,6 +3,7 @@ import { render } from "solid-js/web";
 
 import "./styles.css";
 import Config from "./Config";
+import Test from "./Test";
 import { SetupFormProvider } from "./contexts/setupForm";
 import { Router, Route, Routes } from "@solidjs/router";
 
@@ -11,7 +12,8 @@ render(() => {
     <SetupFormProvider>
         <Router>
             <Routes>
-                <Route path="/" component={Config}></Route>
+                <Route path="/" component={Config}/>
+                <Route path="/test" component={Test}/>
             </Routes>
         </Router>
     </SetupFormProvider>

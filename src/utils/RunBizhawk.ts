@@ -7,7 +7,7 @@ interface bizhawkCommandData {
     savestatePath?: string,
 }
 
-async function generateBizhawkCommand(pathData: bizhawkCommandData) {
+async function runBizhawkCommand(pathData: bizhawkCommandData) {
     await invoke('run_bizhawk', {
         "bizPath": pathData.bizPath,
         "gamePath": pathData.gamePath,
@@ -16,4 +16,4 @@ async function generateBizhawkCommand(pathData: bizhawkCommandData) {
     });
 }
 
-export default generateBizhawkCommand;
+export default runBizhawkCommand;

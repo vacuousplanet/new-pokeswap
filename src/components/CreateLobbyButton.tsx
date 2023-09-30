@@ -1,6 +1,7 @@
 import { createEffect, createSignal } from "solid-js";
+import { useNavigate } from "@solidjs/router";
 import { useSetupForm } from "../contexts/setupForm";
-import generateBizhawkCommand from "../utils/RunBizhawk";
+import runBizhawkCommand from "../utils/RunBizhawk";
 
 
 // TODO: change mdoe to enum probably
@@ -10,6 +11,8 @@ function CreateLobbyButton() {
     const [formData, _] = useSetupForm() as [any, any];
 
     const [active, setActive] = createSignal(false);
+
+    const navigate = useNavigate();
 
     createEffect(() => {
         setActive(
@@ -40,11 +43,12 @@ function CreateLobbyButton() {
         <button
             class="btn-large"
             onclick={() => {
-                generateBizhawkCommand({
+                runBizhawkCommand({
                     bizPath: formData.bizhawkPath(),
                     luaPath: "",
                     gamePath: formData.romPath().path,
                 });
+                navigate('/test');
             }}
             disabled={!active()}
         >Create</button>
