@@ -1,4 +1,5 @@
 import { useNavigate } from "@solidjs/router";
+import { emit } from "@tauri-apps/api/event"; 
 
 function GoToConfig() {
 
@@ -16,7 +17,10 @@ function GoToConfig() {
 
     return (
         <div class="group relative w-max basis-1/6">
-            <button class="btn-large" onclick={() => navigate('/')}>Return To Config Screen</button>
+            <button class="btn-large" onclick={() => {
+                emit('LEAVE');
+                navigate('/');
+            }}>Return To Config Screen</button>
             {toolTip()}
         </div>
     );
