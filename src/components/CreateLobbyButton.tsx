@@ -14,7 +14,7 @@ function CreateLobbyButton() {
     createEffect(() => {
         setActive(
             formData.bizhawkPath() != ""
-            && formData.romPath() != ""
+            && formData.romPath().name != ""
             && formData.username() != ""
         );
     });
@@ -26,7 +26,7 @@ function CreateLobbyButton() {
                 hidden={active()}
             >
                 <p class="text-rose-500">{formData.bizhawkPath() != "" ? "" : "* Missing Bizhawk Path"}</p>
-                <p class="text-rose-500">{formData.romPath() != "" ? "" : "* No ROM Selected"}</p>
+                <p class="text-rose-500">{formData.romPath().name != "" ? "" : "* No ROM Selected"}</p>
                 <p class="text-rose-500">{formData.username() != "" ? "" : "* Missing Player Name"}</p>
             </span>
         );

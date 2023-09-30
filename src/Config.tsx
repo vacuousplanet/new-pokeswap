@@ -8,11 +8,10 @@ import FileDialog from "./components/FileDialog";
 import RomList from "./components/RomList";
 import CreateLobbyButton from "./components/CreateLobbyButton";
 
-import "./App.css";
 import JoinLobbyButton from "./components/JoinLobbyButton";
 import CustomServerToggle from "./components/CustomServerToggle";
 
-function App() {
+function Config() {
 
   const [formData, updateFormData] = useSetupForm() as [any, any];
 
@@ -55,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default Config;
