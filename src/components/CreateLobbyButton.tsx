@@ -51,7 +51,7 @@ function CreateLobbyButton() {
                 navigate('/test');
             }}
             disabled={!active()}
-        >Create</button>
+        >Test</button>
         {toolTip()}
         </div>
     );
