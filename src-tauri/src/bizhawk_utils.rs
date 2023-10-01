@@ -1,6 +1,8 @@
+use std::io::Write;
 use std::net::Ipv4Addr;
 use std::net::SocketAddrV4;
 
+use tempfile::NamedTempFile;
 use tokio::net::TcpListener;
 use tokio::{
   io::{AsyncReadExt, AsyncWriteExt},
@@ -9,6 +11,8 @@ use tokio::{
 
 use defer_lite::defer;
 
+use resource::resource_str;
+
 #[derive(Debug)]
 enum Listener {
   Msg,
@@ -16,7 +20,14 @@ enum Listener {
 }
 
 #[tauri::command]
-pub async fn run_bizhawk(window: tauri::Window, biz_path: String, game_path: String, savestate_path: Option<String>) {
+pub async fn run_bizhawk(window: tauri::Window, biz_path: String, game_path: String, _savestate_path: Option<String>) {
+
+  // set up lua files
+  let src_lua_file = resource_str!("lua/main.lua");
+  let mut dest_lua_file = NamedTempFile::new().unwrap();
+
+  dest_lua_file.write_all(src_lua_file.as_bytes()).unwrap();
+  let dest_lua_path = dest_lua_file.into_temp_path();
 
   println!("starting listener");
 
@@ -32,6 +43,7 @@ pub async fn run_bizhawk(window: tauri::Window, biz_path: String, game_path: Str
   let _ = std::process::Command::new(biz_path)
     .arg("--socket_ip=127.0.0.1")
     .arg(format!("--socket_port={}", socket_addr.port()))
+    .arg(format!("--lua={}", dest_lua_path.to_str().unwrap()))
     .arg(game_path)
     .stdout(std::process::Stdio::piped())
     .spawn()
