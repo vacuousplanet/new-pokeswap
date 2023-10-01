@@ -1,4 +1,5 @@
 import GoToConfig from "./test_components/GoToConfig";
+import TestMessage from "./test_components/TestMessage";
 
 
 function Test() {
@@ -9,6 +10,7 @@ function Test() {
             </div>
             <div class="grid-rows-5 basis-5/6 m-8">
                 <GoToConfig/>
+                <TestMessage/>
             </div>
         </div>
     );
