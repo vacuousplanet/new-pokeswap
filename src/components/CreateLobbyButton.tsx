@@ -45,7 +45,6 @@ function CreateLobbyButton() {
             onclick={() => {
                 runBizhawkCommand({
                     bizPath: formData.bizhawkPath(),
-                    luaPath: "",
                     gamePath: formData.romPath().path,
                 });
                 navigate('/test');

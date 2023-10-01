@@ -7,6 +7,8 @@ use tokio::{
   sync::mpsc,
 };
 
+use defer_lite::defer;
+
 #[derive(Debug)]
 enum Listener {
   Msg,
@@ -14,7 +16,7 @@ enum Listener {
 }
 
 #[tauri::command]
-pub async fn run_bizhawk(window: tauri::Window, biz_path: String, lua_path: String, game_path: String, savestate_path: Option<String>) {
+pub async fn run_bizhawk(window: tauri::Window, biz_path: String, game_path: String, savestate_path: Option<String>) {
 
   println!("starting listener");
 
@@ -26,6 +28,7 @@ pub async fn run_bizhawk(window: tauri::Window, biz_path: String, lua_path: Stri
     Ok(s) => s,
   };
 
+  // start bizhawk
   let _ = std::process::Command::new(biz_path)
     .arg("--socket_ip=127.0.0.1")
     .arg(format!("--socket_port={}", socket_addr.port()))
@@ -43,13 +46,16 @@ pub async fn run_bizhawk(window: tauri::Window, biz_path: String, lua_path: Stri
   };
   
   println!("socket started");
-  
+
+  // basically window handlers for injecting into tokio server loop 
   let (tx, mut rx) = mpsc::channel::<(Listener, tauri::Event)>(1);
   let event_sender = tx.clone();
   let leave_sender = tx.clone();
 
   println!("event senders cloned");
 
+  // TODO: more ideomatic/programmatic way of doing this...
+  //       loop through listener enum values and have a map to string vals?
   let event = window.listen("FRONTEND_MSG", move |e| {
     event_sender.try_send((Listener::Msg, e)).unwrap();
   });
@@ -58,6 +64,12 @@ pub async fn run_bizhawk(window: tauri::Window, biz_path: String, lua_path: Stri
     leave_sender.try_send((Listener::Leave, e)).unwrap();
   });
 
+  defer! {
+    window.unlisten(event);
+    window.unlisten(leave_ev);
+    println!("Listeners unbound from window!");
+  }
+  
   // lol
   let mut buf = vec![0; 2048];
 
@@ -102,10 +114,5 @@ pub async fn run_bizhawk(window: tauri::Window, biz_path: String, lua_path: Stri
 
     buf = vec![0; 1024];
   }
-
-  window.unlisten(event);
-  window.unlisten(leave_ev);
-
-  println!("Listeners unbound from window!");
 
 }
