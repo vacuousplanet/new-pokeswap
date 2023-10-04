@@ -22,6 +22,8 @@ function CHECK_SERVER ()
     return responce
 end
 
+-- TODO: create look up table of responce id's
+--       establish protocol to separate id from content (e.g ID : CONTENT)
 
 while true do
     emu.frameadvance()
